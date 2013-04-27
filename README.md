@@ -10,8 +10,10 @@ And that's exactly what the below tiny (2kb) library provides.
 Syntax:
 
     Locker.Lock(lockName, callbackFunction, [priority=10]); 
+    
     Locker.LockManual(lockName, callbackFunction, [priority=10]); 
     Locker.Release(lockName);
+    
 
 Basic usage:
 
