@@ -57,16 +57,16 @@ Priority values example:
 
 Output:
 
-Task no: 0, Priority: 5
-Task no: 1, Priority: 1
-Task no: 4, Priority: 2
-Task no: 6, Priority: 2
-Task no: 9, Priority: 2
-Task no: 8, Priority: 3
-Task no: 2, Priority: 4
-Task no: 5, Priority: 4
-Task no: 7, Priority: 6
-Task no: 3, Priority: 7
+    Task no: 0, Priority: 5
+    Task no: 1, Priority: 1
+    Task no: 4, Priority: 2
+    Task no: 6, Priority: 2
+    Task no: 9, Priority: 2
+    Task no: 8, Priority: 3
+    Task no: 2, Priority: 4
+    Task no: 5, Priority: 4
+    Task no: 7, Priority: 6
+    Task no: 3, Priority: 7
 
 As you'd expect, the locking mechanism makes it a reliable tasking system. Extend, modify and utilize it at will. Have fun!
 
