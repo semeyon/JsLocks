@@ -36,9 +36,8 @@ Locker._waitManual = function (obj) {
 };
 
 Locker._prioritizeQueue = function (obj) {
-    var len = Locker._lockQueue[obj].length;
     var sorted = Locker._lockQueue[obj].sort(function (a, b) { return a[1] - b[1] });
-    if (len === sorted.length)
+    if (Locker._lockQueue[obj].length === sorted.length)
         Locker._lockQueue[obj] = sorted;
     else
         Locker._prioritizeQueue(obj);
