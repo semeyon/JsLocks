@@ -1,7 +1,7 @@
 JsLocks
 =======
 
-Things  break. Codes break. Javascript - they don't just break, they break everything along with it. Being the simplest language has its downsides. But one of the common reasons that happen is people tend to forget that everything in JS is asynchronous. Every single line of code.
+Things  break. Codes break. Javascript - they don't just break, they break everything along with it. Being the simplest language has its downsides. But one of the common reasons that happen is people tend to forget that everything in JS is asynchronous.
 
 You probably would get away with it, if you're writing simple applications. But when complexity increases, it almost becomes impossible to solve certain problems with the async design pattern, not without a locking mechanism. Especially, in a Javascript environment due to its full async nature making timing absolutely unreliable and unpredictable. While locking is common in a multi-thread environment, Js in most common environments will run on a single-thread and due to only simplistic tasks being performed with it, the old days never saw a need for locking. But for today's complex applications, you just need performant and reliable locking. There no way around it.
 
