@@ -11,7 +11,7 @@ And that's exactly what the below tiny (2kb) library provides.
 Basic usage:
 
 
-    Function getALife() {
+    function getALife() {
 
         Locker.Lock("thebiglock", function() {
             DoSomeWork();
