@@ -9,17 +9,17 @@ And that's exactly what the below tiny (< 2kb) library provides.
 
 Syntax:
 
-    Locker.Lock(lockName, callbackFunction, [priority=10]); 
+    Locker.Lock(lockName, callbackFunction, [priority=0]); 
     
-    Locker.LockManual(lockName, callbackFunction, [priority=10]); 
+    Locker.LockManual(lockName, callbackFunction, [priority=0]); 
     Locker.Release(lockName);
     
     Locker.DiscardQueue(lockName);
     
-    Locker.LockManualIfInstant(lockName, callbackFunction, [priority=10]); 
-    Locker.LockIfInstant(lockName, callbackFunction, [priority=10]); 
-    Locker.MultiLock(lockName, priority=10, numberOfLocks); 
-    Locker.ZeroLock(lockName, priority=10);
+    Locker.LockManualIfInstant(lockName, callbackFunction, [priority=0]); 
+    Locker.LockIfInstant(lockName, callbackFunction, [priority=0]); 
+    Locker.MultiLock(lockName, priority=0, numberOfLocks); 
+    Locker.ZeroLock(lockName, priority=0);
     
     
 
