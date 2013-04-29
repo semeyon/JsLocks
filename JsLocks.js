@@ -11,9 +11,6 @@ Locker._init = function (obj, priority, initValue) {
     if (Locker.locks[obj] === undefined) {
         Locker.locks[obj] = initValue;
     }
-    else {
-        Locker.Release(obj);
-    }
     if (Locker._lockQueue[obj] === undefined) {
         Locker._lockQueue[obj] = [];
     }
