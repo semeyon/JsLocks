@@ -5,7 +5,7 @@ Things  break. Codes break. Javascript - they don't just break, they break every
 
 You probably would get away with it, if you're writing simple applications. But when complexity increases, it almost becomes impossible to solve certain problems with the async design pattern, not without a locking mechanism. Especially, in a Javascript environment due to its full async nature making timing absolutely unreliable and unpredictable. While locking is common in a multi-thread environment, Js in most common environments will run on a single-thread and due to only simplistic tasks being performed with it, the old days never saw a need for locking. But for today's complex applications, you just need performant and reliable locking. There no way around it.
 
-And that's exactly what the below tiny (2kb) library provides.
+And that's exactly what the below tiny (< 2kb) library provides.
 
 Syntax:
 
@@ -13,6 +13,14 @@ Syntax:
     
     Locker.LockManual(lockName, callbackFunction, [priority=10]); 
     Locker.Release(lockName);
+    
+    Locker.DiscardQueue(lockName);
+    
+    Locker.LockManualIfInstant(lockName, callbackFunction, [priority=10]); 
+    Locker.LockIfInstant(lockName, callbackFunction, [priority=10]); 
+    Locker.MultiLock(lockName, priority=10, numberOfLocks); 
+    Locker.ZeroLock(lockName, priority=10);
+    
     
 
 Basic usage:
@@ -47,7 +55,7 @@ And last but not the least - Priorities.
         FetchNewAjaxContentAndReplaceMyMainContent();
     }, 20);
 
-The default priority of jobs is 10.  The lower the value, higher the priority. (If you're asking why not the other way, which you should, as it just wouldn't make sense to reverse the natural thinking process, it CAN easily be done to make more semantic sense, but that'd mean an extra sort, or not to use the native Javascript sort function without another sorting reference. While it may not be a big deal, I'd prefer to maximize the performance. But help yourself with the internal prioritizeQueue function to implement your own.
+The default priority of jobs is 0.  The higher the value, higher the priority.
 
 Priority values example:
 
@@ -64,16 +72,16 @@ Priority values example:
 
 Output:
 
-    Task no: 0, Priority: 5
-    Task no: 1, Priority: 1
-    Task no: 4, Priority: 2
-    Task no: 6, Priority: 2
-    Task no: 9, Priority: 2
-    Task no: 8, Priority: 3
-    Task no: 2, Priority: 4
-    Task no: 5, Priority: 4
-    Task no: 7, Priority: 6
-    Task no: 3, Priority: 7
+    Task no: 0, Priority: 8
+    Task no: 1, Priority: 8
+    Task no: 4, Priority: 7
+    Task no: 6, Priority: 7
+    Task no: 9, Priority: 7
+    Task no: 8, Priority: 5
+    Task no: 2, Priority: 3
+    Task no: 5, Priority: 3
+    Task no: 7, Priority: 1
+    Task no: 3, Priority: 1
 
 As you'd expect, the locking mechanism makes it a reliable tasking system. Extend, modify and utilize it at will. Have fun!
 
