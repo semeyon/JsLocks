@@ -1,15 +1,20 @@
-var Locker = function () {};
+var Locker = function () { };
 Locker.locks = {};
 Locker._lockQueue = {};
 Locker._runningQueue = {};
 
 // Internal Functions
 
-Locker._init = function (obj, priority, initValue) {
+Locker._init = function (obj, priority, parallelLock) {
     if (priority === undefined) priority = 0;
-
-    if (Locker.locks[obj] === undefined) {
-        Locker.locks[obj] = initValue;
+    if (parallelLock === undefined) {
+        if (Locker.locks[obj] === undefined) {
+            Locker.locks[obj] = false;
+        }
+    } else {
+        if (Locker.locks[obj] === undefined) {
+            Locker.locks[obj] = 0;
+        }
     }
     if (Locker._lockQueue[obj] === undefined) {
         Locker._lockQueue[obj] = [];
@@ -22,25 +27,28 @@ Locker._init = function (obj, priority, initValue) {
 Locker._process = function (obj, mode) {
     Locker._prioritizeQueue(obj);
     if (!Locker._runningQueue[obj])
-        Locker._wait(obj, mode);
+    if (mode === 2) {
+            Locker._pLocker(obj);
+    } else {
+            Locker._wait(obj, mode);
+    }
 }
 
 Locker._wait = function (obj, mode) {
     Locker._runningQueue[obj] = true;
     var isLocked = Locker.locks[obj];
-    if (isLocked > 0) {
-        Locker.locks[obj]++;
+    if (!isLocked) {
+        Locker.locks[obj] = true;
         var _callback = Locker._lockQueue[obj].shift();
         if (_callback === undefined) {
-            if (mode == 0)
-                Locker.locks[obj]--;
+            Locker.locks[obj] = false;
             Locker._runningQueue[obj] = false;
             return;
         }
         if (_callback[0] !== undefined)
             _callback[0].call(this);
-        if (mode == 0)
-            Locker.locks[obj]--;
+        if (mode === 0)
+            Locker.locks[obj] = false;
     }
     setTimeout(function () { Locker._wait(obj, mode) }, 20);
 };
@@ -56,20 +64,20 @@ Locker._prioritizeQueue = function (obj) {
 // Exposed Core Functions
 
 Locker.Lock = function (obj, callback, priority) {
-    Locker._init(obj, priority, 1);
+    Locker._init(obj, priority);
     Locker._lockQueue[obj].push([callback, -priority]);
     Locker._process(obj, 0);
 };
 
 Locker.LockManual = function (obj, callback, priority) {
-    Locker._init(obj, priority, 1);
+    Locker._init(obj, priority);
     Locker._lockQueue[obj].push([callback, -priority]);
     Locker._process(obj, 1);
 };
 
-Locker.Release = function(obj) {
-    Locker.locks[obj]++;
-}
+Locker.Release = function (obj) {
+    Locker.locks[obj] = false;
+};
 
 Locker.DiscardQueue = function (obj) {
     Locker._lockQueue[obj] = []
@@ -86,18 +94,3 @@ Locker.LockIfInstant = function (obj, callback, priority) {
     if (Locker._lockQueue[obj].length === 0 && Locker.locks[obj])
         Locker.Lock(obj, callback, priority);
 };
-
-// Convenience Functions
-
-Locker.MultiLock = function (obj, priority, number) {
-    Locker._init(obj, priority, 0);
-    var fn = function () { };
-    for (var i = 0; i < number; i++) {
-        Locker._lockQueue[obj].push([fn, -priority]);
-    }
-    Locker._process(obj, 1)
-}
-
-Locker.ZeroLock = function (obj, priority) {
-    Locker.MultiLock(obj, priority, 0);
-}
