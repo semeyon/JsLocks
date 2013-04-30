@@ -18,8 +18,6 @@ Syntax:
     
     Locker.LockManualIfInstant(lockName, callbackFunction, [priority=0]); 
     Locker.LockIfInstant(lockName, callbackFunction, [priority=0]); 
-    Locker.MultiLock(lockName, priority=0, numberOfLocks); 
-    Locker.ZeroLock(lockName, priority=0);
     
     
 
